@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+if (( $# != 1 )); then
+    echo "Usage: \"./daybreak path/to/update\""
+    exit
+fi
+for f in $1/*.nca; do
+   export NAME="$(hactool -i $f | grep "Content Type:" | cut -d":" -f2 | tr -d '[:space:]' | tr -d '[\r]')"
+   if [ $NAME == "Meta" ]; then
+      mv "$f" "${f%.nca}.cnmt.nca"
+   fi
+done
